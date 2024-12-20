@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "tailwindcss": "^3.4.16"
-  },
-  "dependencies": {
-    "tailwindcss-textshadow": "^2.1.3"
-  }
-}
