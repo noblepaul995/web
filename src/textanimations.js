@@ -1,34 +1,38 @@
 gsap.registerPlugin(TextPlugin, ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Select the H1 element
   const heading = document.querySelector("#herosect #text-2");
+
+  if (!heading) return; // Ensure the element exists
 
   // Replace text with spans for animation
   heading.innerHTML = heading.innerHTML
     .split("<br>") // Split at line breaks
     .map(line =>
-      `<span class="line-break">${line
-        .split("")
-        .map(char => `<span class="char mb-0">${char === " " ? "&nbsp;" : char}</span>`)
-        .join("")}</span>`
+      `<span class="line-break">${[...line].map(char => 
+        `<span class="char">${char === " " ? "&nbsp;" : char}</span>`
+      ).join("")}</span>`
     )
-    .join("<br>"); // Re-add line breaks
+    .join("<br>"); // Preserve line breaks
 
-  // Animate each character with GSAP
-  gsap.to('.char', {
-    opacity: 1,         // Fade in
-    y: 0,               // Slide up
-    stagger: 0.03,      // Add delay between characters
-    duration: 1,        // Animation duration
-    ease: "power2.out", // Smooth easing
+  // Apply initial styles to ensure smooth animation
+  gsap.set(".char", { opacity: 0, y: 20 });
+
+  // Animate characters
+  gsap.to(".char", {
+    opacity: 1,
+    y: 0,
+    stagger: 0.03, // Controls delay between each letter
+    duration: 1,
+    ease: "power2.out",
   });
 
-  // Optional: Animate lines with delay
-  gsap.fromTo('.line-break', 
-    { y: 50 },         // Initial position
-    { y: 0, stagger: 0.3, ease: "power2.out" } // Smooth easing for lines
+  // Animate whole lines separately
+  gsap.fromTo(".line-break", 
+    { opacity: 0, y: 50 }, 
+    { opacity: 1, y: 0, stagger: 0.3, ease: "power2.out" }
   );
+});
 
   
   
