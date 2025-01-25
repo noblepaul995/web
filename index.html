@@ -660,6 +660,42 @@
     <script src="./src/script.js"></script>
     <script src="./src/textanimations.js"></script>
     <script>
+        gsap.registerPlugin(TextPlugin, ScrollTrigger);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const heading = document.querySelector("#herosect #text-2");
+
+  if (!heading) return; // Ensure the element exists
+
+  // Replace text with spans for animation
+  heading.innerHTML = heading.innerHTML
+    .split("<br>") // Split at line breaks
+    .map(line =>
+      `<span class="line-break">${[...line].map(char => 
+        `<span class="char">${char === " " ? "&nbsp;" : char}</span>`
+      ).join("")}</span>`
+    )
+    .join("<br>"); // Preserve line breaks
+
+  // Apply initial styles to ensure smooth animation
+  gsap.set(".char", { opacity: 0, y: 20 });
+
+  // Animate characters
+  gsap.to(".char", {
+    opacity: 1,
+    y: 0,
+    stagger: 0.03, // Controls delay between each letter
+    duration: 1,
+    ease: "power2.out",
+  });
+
+  // Animate whole lines separately
+  gsap.fromTo(".line-break", 
+    { opacity: 0, y: 50 }, 
+    { opacity: 1, y: 0, stagger: 0.3, ease: "power2.out" }
+  );
+});
+
       
 
 
