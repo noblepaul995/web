@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sagnik</title>
     <link rel="stylesheet" href="output.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,49 +52,251 @@
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;     /* Firefox */
   }
+ 
+  body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .container {
+      overflow: hidden;
+      position: relative;
+      padding: 0 1rem;
+    }
+    img {
+      width: 100%;
+      height: 150px; /* Initially small height */
+      object-fit: cover;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn {
+      text-decoration: none;
+    }
+    .mt-8 {
+      margin-top: 2rem;
+    }
+    .expanded-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.expanded-left {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.expanded-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.expanded-right {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px;
+  position: relative;
+}
+
+.expanded-right h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.expanded-right p {
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.live-preview-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.live-preview-btn:hover {
+  background: #0056b3;
+}
+
+
+
+
+    .char {
+      display: inline;
+      opacity: 0;
+      padding: 0;
+      margin: 0; /* Initially hidden for animation */
+    }
+    .line-break {
+      display: inline;
+      line-height: 1;
+      margin: 0;
+      padding: 0; /* Ensures line breaks work */
+    }
+    #text-3 {
+      font-size: 3em;
+      opacity: 10; /* Start hidden */
+      line-height: 1.2;
+    }  
+
+    #text-3 span {
+      display: inline; /* Ensure each character inside the span is an inline-block for animation */
+    }
+    .reveal-line {
+      opacity: 0;
+      transform: translateY(50px);
+    } 
+    #cursor {
+    position: fixed;  /* Keeps it fixed on the page */
+    top: 0;
+    left: 0;
+    width: 20px;  /* Cursor size */
+    height: 20px; /* Cursor size */
+    background-color: #181822; /* Cursor color */
+    border-radius: 50%; /* Makes it round */
+    pointer-events: none; /* Ensures the cursor doesn't interfere with interactions */
+    z-index: 9999;  /* Ensures the cursor stays above all elements */
+    transform: translate(-50%, -50%); /* Centers the cursor on the mouse position */
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+.expanded-right {
+    position: relative;
+    padding: 20px;
+    color: #333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    border: none;
+    margin: 32px;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    background: rgba(255, 0, 0, 0.9);
+    color: white;
+}
+.active-image {
+    border: 2px solid white;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.floating-images {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent images from wrapping */
+    display: flex;
+}
+
+
+
+/* .overflow-x-auto {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#leftArrow {
+    left: 10px;
+}
+
+#rightArrow {
+    right: 10px;
+}
+ */
+
+
+
+ 
 </style>
-<body class="bg-[#fff5d7] my-8 overflow-x-hidden">
+<body id = "body" class="body bg-[#fff5d7] my-8 overflow-x-hidden">
+  <!-- <div id="cursor" class="bg-darkBlueGray w-6 h-6 rounded-full fixed">
+
+  </div> -->
     <!-- Navbar -->
-    <div class="xl:mx-8  sm:mx-0 w-full md:flex justify-between items-center">
+    <div class="xl:mx-8  sm:mx-0 w-full md:flex justify-center items-center">
       <div>
-        <a href="#" class="w-1/3 outline-none text-bg-one-text-2 font-rubik-dirt text-3xl sm:text-4xl lg:text-5xl mx-8 md:mx-6">SAGNIK.</a>
+        <a href="#" class="w-1/6 outline-none text-bg-one-text-2 font-rubik-dirt text-3xl sm:text-4xl lg:text-5xl ml-8 md:ml-6">SAGNIK.</a>
       </div>
-      <div class="w-full md:flex gap-8 sm:gap-16 lg:gap-24 xl:gap-32 justify-center items-center text-center hidden">
+      <div class="w-full md:flex gap-2 sm:gap-16 lg:gap-24 xl:gap-32 justify-center items-center text-center hidden mr-72">
         <a href="#" class="outline-none text-slate-800 font-rosario font-bold text-lg sm:text-xl lg:text-2xl">Home</a>
         <a href="#" class="outline-none text-slate-800 font-rosario font-bold text-lg sm:text-xl lg:text-2xl">About</a>
         <a href="#" class="outline-none text-slate-800 font-rosario font-bold text-lg sm:text-xl lg:text-2xl">Works</a>
         <a href="#" class="outline-none text-slate-800 font-rosario font-bold text-lg sm:text-xl lg:text-2xl">Contact</a>
       </div>
     </div>
+    
   
     <!-- Hero Section -->
-    <div class="mt-24 w-full flex justify-center items-start">
-      <h1 class="text-orange-950 font-owsald font-semibold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-wrap text-center px-4 sm:px-8 md:px-16">
-        Turning coffee into code <br>and bugs into 'features'—your <br>full-stack magician at work!
+    <div id="herosect" class=" mt-24 w-full flex justify-center items-start">
+      <h1  id="text-2" class=" text-1 text-orange-950 font-owsald font-semibold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-wrap  px-4 sm:px-8 md:px-16 cursor-default">
+      Turning coffee into code <br> and bugs into 'features'—your <br>   full-stack magician at work!
       </h1>
     </div>
   
     <!-- Projects Section -->
     <div class="my-24 mx-8 sm:mx-16 lg:mx-56 flex flex-col justify-center items-center rounded-md">
-      <h1 class="text-f-b-1 font-antonsc font-medium text-3xl sm:text-4xl lg:text-5xl text-center mb-16">
+      <h1 id = "text-3" class="text-f-b-1 font-antonsc font-medium text-3xl sm:text-4xl lg:text-5xl text-center mb-16 cursor-default">
         These are a few of my <span class="text-bg-one-text-2">favourite</span> projects
       </h1>
 
-      <div class="overflow-x-auto hide-scrollbar">
+      <div class=" overflow-x-auto hide-scrollbar">
         <div class="flex space-x-4 md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-8 sm:p-16 gap-4 rounded-lg">
-          <img src="./img/1.jpg" alt="" class="rounded-xl w-full">
-          <img src="./img/2.jpg" alt="" class="rounded-xl w-full">
-          <img src="./img/3.jpg" alt="" class="rounded-xl w-full">
-          <img src="./img/4.jpg" alt="" class="rounded-xl w-full">
-          <img src="./img/1.jpg" alt="" class="rounded-xl w-full">
-          <img src="./img/2.jpg" alt="" class="rounded-xl w-full">
+          <img src="./img/1.jpg" alt="" class="img-container rounded-xl w-full" id="img1">
+          <img src="./img/2.jpg" alt="" class="img-container rounded-xl w-full" id="img2">
+          <img src="./img/3.jpg" alt="" class="img-container rounded-xl w-full" id="img3">
+          <img src="./img/4.jpg" alt="" class="img-container rounded-xl w-full" id="img4">
+          <img src="./img/1.jpg" alt="" class="img-container rounded-xl w-full" id="img5">
+          <img src="./img/2.jpg" alt="" class="img-container rounded-xl w-full" id="img6">
         </div>
     
         
       </div>
-      <div class="flex gap-5 mt-8 justify-center items-center flex-wrap">
-        <a href="" class="btn mb-6 shadow-lg shadow-bg-one-text text-xl transition duration-300 ease-linear text-slate-950 py-4 px-12 bg-bg-one-text-2 text-center rounded-2xl font-roboto font-semibold hover:scale-105 transform">Want More?</a>
-        <a href="" class="btn mb-6 text-xl transition duration-300 ease-linear text-slate-950 py-4 px-12 border-2 border-bg-one-text-2 text-center rounded-2xl font-roboto font-semibold hover:scale-105 transform">Hire Me!</a>
+      <div class="bt flex gap-5 mt-8 justify-center items-center flex-wrap">
+        <a href=""  class="btn mb-6 shadow-lg shadow-bg-one-text text-xl transition duration-300 ease-linear text-slate-950 py-4 px-12 bg-bg-one-text-2 text-center rounded-2xl font-roboto font-semibold hover:scale-105 transform">Want More?</a>
+        <a href=""  class="btn mb-6 text-xl transition duration-300 ease-linear text-slate-950 py-4 px-12 border-2 border-bg-one-text-2 text-center rounded-2xl font-roboto font-semibold hover:scale-105 transform">Hire Me!</a>
       </div>
     </div>
   
@@ -102,8 +304,8 @@
     
   
     <!-- Image Gallery Section -->
-    <div class="mx-8 sm:mx-16 mt-48 flex flex-col justify-center items-center ">
-      <h1 class="text-f-b-1 font-antonsc font-medium text-3xl sm:text-4xl lg:text-5xl text-center mb-16">
+    <div class="image_gallery mt-48 flex flex-col justify-center items-center">
+      <h1 id = "text-4" class="text-f-b-1 font-antonsc font-medium text-3xl sm:text-4xl lg:text-5xl text-center mb-16">
         Where we turn caffeine into code... and occasional chaos.
       </h1>
       <div class="flex flex-col justify-center items-center md:hidden">
@@ -134,70 +336,149 @@
 
 
       </div>
-      <div class="">
-        <div class="hidden  md:grid sm:flex space-x-4 sm:space-x-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 md:gap-4 md:max-w-screen-xl mt-16">
-          <!-- First Large Image -->
-          <div class=" md:col-span-2 md:row-span-2">
-            <img src="./img/1.jpg" alt="Large Image" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-        
-          <!-- Other Images -->
-          <div>
-            <img src="./img/2.jpg" alt="Headphones" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div>
-            <img src="./img/3.jpg" alt="Creative Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div class="md:col-span-2">
-            <img src="./img/4.jpg" alt="Flower and Hands" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div>
-            <img src="./img/2.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div class="md:row-span-2 md:col-span-2">
-            <img src="./img/2.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div>
-            <img src="./img/2.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div>
-            <img src="./img/4.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div class=" md:col-span-1">
-            <img src="./img/1.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
-          <div>
-            <img src="./img/3.jpg" alt="Modern Art" class="w-full md:h-full md:object-cover rounded-lg transition-transform duration-500 ease-in-out md:hover:scale-105" />
-          </div>
+      <div class="hidden relative w-full h-screen md:flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="proimg absolute inset-0 z-0 mx-32">
+            <img src="./img/1.jpg" class="w-full h-full object-cover rounded-3xl">
         </div>
-
-      </div>
-  
-      
-  
-      <div class="justify-center items-center flex mt-8">
-        <a href="" class="btn mb-6 shadow-lg shadow-bg-one-text text-xl transition duration-300 ease-linear text-slate-100 py-4 px-12 bg-bg-one-text-2 text-center rounded-2xl font-roboto font-semibold hover:scale-105 transform">Not Satisfied?</a>
-      </div>
+    
+        <!-- Floating Images Container -->
+        <div class="proimg absolute top-1/5 p-32 w-1/3 right-10 flex gap-6 overflow-x-auto floating-images hide-scrollbar">
+            <img src="./img/2.jpg" class="w-72 h-80 object-cover rounded-3xl shadow-xl transition-transform duration-300 hover:scale-105">
+            <img src="./img/3.jpg" class="w-72 h-80 object-cover rounded-3xl shadow-xl transition-transform duration-300 hover:scale-105">
+            <img src="./img/4.jpg" class="w-72 h-80 object-cover rounded-3xl shadow-xl transition-transform duration-300 hover:scale-105">
+            <img src="./img/3.jpg" class="w-72 h-80 object-cover rounded-3xl shadow-xl transition-transform duration-300 hover:scale-105">
+            <img src="./img/1.jpg" class="w-72 h-80 object-cover rounded-3xl shadow-xl transition-transform duration-300 hover:scale-105">
+        </div>
+    
+        <!-- Slide Text -->
+        <div class="absolute bottom-10 left-32 text-white p-32">
+            <h1 class="text-5xl text-black font-bold">Slide 06</h1>
+            <p class="mt-2 text-lg w-96 text-black">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aut optio harum. Accusantium, quas ullam.</p>
+        </div>
+    
+        <!-- Navigation Buttons -->
+        <div class="absolute bottom-10 right-50 flex gap-6">
+            <button id="leftArrow" class="bg-gray-800 text-white p-4 rounded-full hover:bg-gray-700 transition">←</button>
+            <button id="rightArrow" class="bg-gray-800 text-white p-4 rounded-full hover:bg-gray-700 transition">→</button>
+        </div>
     </div>
+    
+    
+      
+      
+    
+      <div class="bt justify-center items-center flex mt-8">
+        <button id = "btn" class="btn relative px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-pink-500 to-red-400 rounded-full shadow-lg transform transition-all duration-300 ease-in-out focus:outline-none">
+          Not Satisfied?
+        </button>
+      </div>
 
-    <div class="mt-48 ">
-      <div class="bg-f-b-1 mt-6 rounded-lg ">
+    
+      <div class="mt-48 w-full ">
+        <div class=" rounded-lg ">
+          <section class="md:mx-0 flex flex-col sm:p-6 md:p-16 gap-16 justify-center items-center bg-f-b-1" id="services">
+            <h1 id="text-5" class="text-white font-antonsc font-medium text-4xl md:text-6xl text-center mt-8 md:mt-0"><span id="text-5-1">Skills</span>.</h1>
+      
+            <!-- Grid for Cards -->
+            
+              <div class="w-fullcd sm:flex sm:flex-col md:grid md:grid-cols-3 md:gap-6 px-4 md:px-16 lg:px-32 md:mt-16">
+                <!-- Card 1 -->
+                <div class="card group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
+                  <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
+                    <span class="text-indigo-300 tracking-wide ml-2">01</span>
+                    <div class="w-8 h-px bg-gray-500"></div>
+                  </div>
+                  <h3 class="hd text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-indigo-300 font-roboto transition duration-150">
+                    UI <br> DESIGN
+                  </h3>
+                  <p class="desp text-slate-300 text-sm sm:text-base text-justify mx-48">
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Pyhton</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Java</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">React</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">JavaScript</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">NextJs</li>
+                  </p>
+                  <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
+                    <button class="btn relative inline-flex items-center justify-center overflow-hidden font-medium transition-all border-white hover:border-0 rounded-lg group py-1.5 px-2.5">
+                      <span class="w-56 h-48 rounded-lg bg-white absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                      <span class="relative w-full text-left font-rosario font-semibold text-indigo-500 transition-colors duration-300 ease-in-out group-hover:text-black group-hover:font-bold text-sm sm:text-lg">Press me, I guess.</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="card group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
+                  <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
+                    <span class="text-indigo-300 tracking-wide ml-2">01</span>
+                    <div class="w-8 h-px bg-gray-500"></div>
+                  </div>
+                  <h3 class="header text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-indigo-300 font-roboto transition duration-150">
+                    Frontend <br> DESIGN
+                  </h3>
+                  <p class="desp text-slate-300 text-sm sm:text-base text-justify">
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Html</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Css5 & Tailwind</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">React</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">JavaScript</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">NextJs</li>
+                  </p>
+                  <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
+                    <button class="btn relative inline-flex items-center justify-center overflow-hidden font-medium transition-all border-white hover:border-0 rounded-lg group py-1.5 px-2.5">
+                      <span class="w-56 h-48 rounded-lg bg-white absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                      <span class="relative w-full text-left font-rosario font-semibold text-indigo-500 transition-colors duration-300 ease-in-out group-hover:text-black text-sm sm:text-lg group-hover:font-bold">Press me, I guess.</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="card group flex flex-col gap-6 border  border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none mb-16 md:mb-0">
+                  <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
+                    <span class="text-indigo-300 tracking-wide ml-2">01</span>
+                    <div class="w-8 h-px bg-gray-500"></div>
+                  </div>
+                  <h3 class="header text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-indigo-300 font-roboto transition duration-150">
+                    Backend <br> DESIGN
+                  </h3>
+                  <p class="desp text-slate-300 text-sm sm:text-base text-justify">
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold" >NodeJs</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Express</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">MongoDB</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">NextJs</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Django</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">MySql</li>
+                    <li class="desp text-slate-300 text-sm sm:text-base text-justify font-bold">Prisma</li>
+                  </p>
+                  <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
+                    <button class="btn relative inline-flex items-center justify-center overflow-hidden font-medium transition-all border-white hover:border-0 rounded-lg group py-1.5 px-2.5">
+                      <span class="w-56 h-48 rounded-lg bg-white absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                      <span class="relative w-full text-left font-rosario font-semibold text-indigo-500 transition-colors duration-300 ease-in-out group-hover:text-black group-hover:font-bold text-sm sm:text-lg">Press me, I guess.</span>
+                    </button>
+                  </div>
+                </div>
+        
+                <!-- Additional cards omitted for brevity -->
+              </div>
+  
+            
+            
+          </section>
+        </div>
+      </div>
+    <div class=" w-full ">
+      <div class="bg-f-b-1 rounded-lg ">
         <section class="md:mx-0 flex flex-col sm:p-6 md:p-16 gap-16 justify-center items-center bg-gradient-to-l from-[#2A1A40] to-[#1E2A38]" id="services">
-          <h1 class="text-white font-antonsc font-medium text-4xl md:text-6xl text-center mt-8 md:mt-0">Services.</h1>
+          <h1 id="text-5" class="text-white font-antonsc font-medium text-4xl md:text-6xl text-center mt-8 md:mt-0"><span id="text-5-1">Services</span>.</h1>
     
           <!-- Grid for Cards -->
           
-            <div class="sm:flex sm:flex-col md:grid md:grid-cols-3 md:gap-6 px-4 md:px-16 lg:px-32 md:mt-16">
+            <div class="w-fullcd sm:flex sm:flex-col md:grid md:grid-cols-3 md:gap-6 px-4 md:px-16 lg:px-32 md:mt-16">
               <!-- Card 1 -->
-              <div class="group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
+              <div class="card group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
                 <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
                   <span class="text-indigo-300 tracking-wide ml-2">01</span>
                   <div class="w-8 h-px bg-gray-500"></div>
                 </div>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
+                <h3 class="hd text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
                   UI <br> DESIGN
                 </h3>
-                <p class="text-slate-300 text-sm sm:text-base text-justify">
+                <p class="desp text-slate-300 text-sm sm:text-base text-justify">
                   Designing intuitive and visually engaging user interfaces that prioritize usability and aesthetic appeal. Skilled in creating wireframes, prototypes, and polished designs that enhance user experiences and align with brand identities.
                 </p>
                 <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
@@ -207,15 +488,15 @@
                   </button>
                 </div>
               </div>
-              <div class="group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
+              <div class="card group flex flex-col gap-6 border mb-4 border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none">
                 <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
                   <span class="text-indigo-300 tracking-wide ml-2">01</span>
                   <div class="w-8 h-px bg-gray-500"></div>
                 </div>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
-                  UI <br> DESIGN
+                <h3 class="header text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
+                  Frontend <br> DESIGN
                 </h3>
-                <p class="text-slate-300 text-sm sm:text-base text-justify">
+                <p class="desp text-slate-300 text-sm sm:text-base text-justify">
                   Designing intuitive and visually engaging user interfaces that prioritize usability and aesthetic appeal. Skilled in creating wireframes, prototypes, and polished designs that enhance user experiences and align with brand identities.
                 </p>
                 <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
@@ -225,15 +506,15 @@
                   </button>
                 </div>
               </div>
-              <div class="group flex flex-col gap-6 border  border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none mb-16 md:mb-0">
+              <div class="card group flex flex-col gap-6 border  border-slate-800 p-6 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-lg backdrop-blur-lg bg-white/10 transition duration-75 md:hover:scale-105 md:hover:backdrop-blur-none mb-16 md:mb-0">
                 <div class="flex flex-row-reverse items-center justify-end transition duration-150 ease-linear">
                   <span class="text-indigo-300 tracking-wide ml-2">01</span>
                   <div class="w-8 h-px bg-gray-500"></div>
                 </div>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
-                  UI <br> DESIGN
+                <h3 class="header text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-bg-one-text font-roboto transition duration-150">
+                  Backend <br> DESIGN
                 </h3>
-                <p class="text-slate-300 text-sm sm:text-base text-justify">
+                <p class="desp text-slate-300 text-sm sm:text-base text-justify">
                   Designing intuitive and visually engaging user interfaces that prioritize usability and aesthetic appeal. Skilled in creating wireframes, prototypes, and polished designs that enhance user experiences and align with brand identities.
                 </p>
                 <div class="invisible group-hover:visible w-full relative flex justify-end mt-4 lg:mt-8">
@@ -252,46 +533,51 @@
         </section>
       </div>
     </div>
+    <!-- skillsss -->
+    
     
     <section class="relative flex flex-col md:flex-row items-center md:justify-between text-white p-6 md:p-8 lg:p-12 md:min-h-screen">
       <div class="absolute left-0 top-0 w-full md:w-8/12 h-full bg-darkBlueGray"></div>
       <div class="md:w-1/2 md:pl-0 mt-6 md:mt-0 md:mr-16 md:ml-8 lg:ml-32 relative z-40">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-bg-one-text font-Oregano leading-snug">
-          Here’s What You’ve Been Waiting for 
-          <span class="text-text-3 text-2xl md:text-3xl">(Spoiler: It’s Not Much)</span>
+        <h1 id="text-6" class="text-4xl md:text-5xl lg:text-6xl font-bold text-bg-one-text font-Oregano leading-snug">
+          <span id="text-6-1">Here’s What You’ve Been Waiting for</span> 
+          <span  id="text-6-2" class="text-text-3 text-2xl md:text-3xl">(Spoiler: It’s Not Much)</span>
         </h1>
-        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 mt-6 font-caveat leading-relaxed text-justify">
+        <h2 id="text-7" class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 mt-6 font-caveat leading-relaxed text-justify">
           Hi! I’m <span class="text-bg-one-text-2">Sagnik Bhattacharya</span>, an enthusiastic web developer with expertise in the <span class="text-bg-one-text-2">MERN stack</span> (MongoDB, Express.js, React, and Node.js). I specialize in crafting seamless, efficient, and visually engaging web applications. Since embarking on my <span class="text-bg-one-text-2">web development</span> journey at the start of <span class="text-bg-one-text-2">2024</span> , I’ve been driven by a passion for coding, creativity, and problem-solving. From designing intuitive user interfaces with React to implementing robust back-end architectures with <span class="text-bg-one-text-2">Node.js</span> and <span class="text-bg-one-text-2">Express</span>, I thrive on delivering solutions that make a difference. Continuous learning and a commitment to excellence define my approach to development.
         </h2>
       </div>
       <div class="md:w-1/2 lg:w-5/12 relative z-30">
-        <img src="img/char.png" alt="Profile Image" class="w-full md:w-10/12 lg:w-8/12 h-auto mt-8 md:mt-16 mx-auto md:mx-0 backdrop-blur-2xl">
+        <img src="img/char.png" alt="Profile Image" id="abt-1" class="w-full md:w-10/12 lg:w-8/12 h-auto mt-8 md:mt-16 mx-auto md:mx-0 backdrop-blur-2xl">
       </div>
     </section>
     
     <section class="relative flex flex-col-reverse md:flex-row items-center md:justify-between text-white p-6 md:p-8 lg:p-12 md:min-h-screen ">
       <div class="absolute right-0 top-0 w-full md:w-8/12 h-full bg-darkBlueGray "></div>
       <div class="md:w-9/12 lg:w-9/12 relative z-40">
-        <img src="img/char2.png" alt="Profile Image" class="w-full md:w-10/12 lg:w-8/12 h-auto mt-8 md:mt-16 mx-auto md:mx-0 backdrop-blur-2xl">
+        <img src="img/char2.png" alt="Profile Image" id="abt-2" class="w-full md:w-10/12 lg:w-8/12 h-auto mt-8 md:mt-16 mx-auto md:mx-0 backdrop-blur-2xl">
       </div>
-      <div class="md:w-8/12 md:pl-0 mt-6 md:mt-0 -xl:ml-8 lg:-ml-96 relative z-30">
+      <div class="md:w-7/12 md:pl-0 mt-6 md:mt-0 -xl:ml-8 lg:-ml-80 relative z-30">
         <div class="relative w-[90%] max-w-5xl mx-auto">
-          <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 mt-6 font-caveat leading-relaxed text-justify">
+          <h2 id="text-8" class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 mt-6 font-caveat leading-relaxed text-justify">
             When I’m not wrestling with code or making my <span class="text-bg-one-text-2">IDE crash</span> (it’s a talent), you’ll find me buried in <span class="text-bg-one-text-2">books</span>, exploring new worlds, or <span class="text-bg-one-text-2">sketching</span>—because who doesn’t love turning a blank page into a masterpiece or, occasionally, abstract chaos? These hobbies keep me sane, spark my creativity, and remind me there’s life beyond the keyboard… though I often choose to ignore it.
             <!-- Truncated for brevity -->
           </h2>
-           <!-- Vertical Line -->
-           <div class="absolute top-56 left-5 h-[30%] border-l-2 border-dashed border-gray-400 hidden md:flex"></div>
-      
-           <!-- Horizontal Line -->
-           <div class="absolute top-[66%] left-[2.9%] w-[10%] border-t-2 border-dashed border-gray-400 hidden md:flex"></div>
-       
-           <!-- Arrowhead -->
-           <div class="absolute top-[calc(66%-6px)] left-28 h-0 w-0 border-x-8 border-x-transparent border-b-[16px] border-bg-one-text-2 rotate-90 hidden md:flex"></div>
+            <!-- Vertical Line -->
+            <!-- Vertical Line -->
+            <!-- Vertical Line -->
+            <!-- <div class="line vertical"></div> -->
+
+            <!-- Horizontal Line -->
+            <!-- <div class="line horizontal"></div> -->
+
+            <!-- Arrowhead -->
+            <!-- <div class="arrowhead"></div> -->
+
        
            <!-- Text Content -->
-           <div class="md:ml-[15%] md:mt-32">
-             <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 md:mt-48 md:mr-16 font-caveat text-justify">
+           <div class="md:ml-[25%] md:mt-32">
+             <p id="text-9" class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-200 md:mt-48 md:mr-16 font-caveat text-justify">
                When I’m not coding, reading, or sketching, you can usually find me daydreaming about the perfect algorithm or debating whether <span class="text-bg-one-text-2">coffee</span> or <span class="text-bg-one-text-2">tea</span> fuels creativity better (spoiler: it’s coffee). I believe every bug in my code has a personal vendetta against me, but I get by with a mix of persistence, caffeine, and the occasional <span class="text-bg-one-text-2">Google search</span>. Life’s too short for bad code, so I like to keep things fun—after all, if you can’t laugh at a bug that took hours to fix, are you even really coding?
              </p>
            </div>
@@ -301,13 +587,13 @@
 
     <div class="min-h-screen w-full flex flex-col justify-center items-center px-4 mt-16">
       <div>
-        <h1 class="font-bold text-6xl md:text-8xl text-transparent font-rowdies text-center" style="-webkit-text-stroke: 4px #130f10; color: transparent;">
+        <h1 id="connect" class="font-bold text-6xl md:text-8xl text-transparent font-rowdies text-center" style="-webkit-text-stroke: 4px #130f10; color: transparent;">
           Let's Connect
         </h1>
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 mt-16 w-full">
         <!-- Card 1 -->
-        <div class="flex flex-col justify-center items-center w-full md:w-1/3">
+        <div class="card flex flex-col justify-center items-center w-full md:w-1/3">
           <div class="p-6 backdrop-blur-2xl shadow-xl rounded-xl bg-pink-700 bg-opacity-30">
             <div class="flex flex-col gap-8 md:gap-16 justify-center items-center p-8 md:p-16">
               <p class="font-bold text-3xl md:text-4xl text-red-950 font-rowdies text-center">
@@ -325,7 +611,7 @@
           </div>
         </div>
         <!-- Card 2 -->
-        <div class="flex flex-col justify-center items-center w-full md:w-1/3">
+        <div class="card flex flex-col justify-center items-center w-full md:w-1/3">
           <div class="p-6 backdrop-blur-xl bg-opacity-25 shadow-xl rounded-xl bg-purple-600">
             <div class="flex flex-col gap-8 md:gap-16 justify-center items-center p-8 md:p-16">
               <p class="font-bold text-3xl md:text-4xl text-red-950 font-rowdies text-center">
@@ -346,7 +632,7 @@
     </div>
     
     <!-- Footer Section -->
-    <section class="bg-black text-white py-8 mt-16">
+    <section class="bg-black text-white py-8 mt-16 rounded-xl">
       <div class="container mx-auto text-center px-4">
         <p class="font-rosario text-sm md:text-lg">
           © 2024 Sagnik Bhattacharya. All rights reserved.
@@ -358,9 +644,30 @@
         </div>
       </div>
     </section>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    
+    <script src="imganimations.js"></script>
+    <script src="cardAnimations.js"></script>
+    <script src="carousel.js"></script>
+    
+
+
+    <script src="./script.js"></script>
+    <script src="textanimations.js"></script>
+    <script>
+      
+
+
+
+ 
+
+    </script>
     
   </body>
-  
-  
   
 </html>
